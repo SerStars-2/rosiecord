@@ -33,9 +33,19 @@ jobs:
         id: core
         run: brew install coreutils ldid
 
+      - name: Prepare Enmity Patcher
+        run : |
+          curl -L https://github.com/SerStars/patcher/releases/latest/download/patcher.mac-amd64 -o ${{ github.workspace }}/patcher
+          chmod +x patcher
+
       - name: Run Main Node Script to Patch Rosiecord
         id: build
         run: sh ./script.sh
+
+      - name: Patch Discord
+        run : |
+          ${{ github.workspace }}/patcher ${{ github.workspace }}/Discord.ipa
+          mkdir out
 
       - name: Retrieve version
         id: version
